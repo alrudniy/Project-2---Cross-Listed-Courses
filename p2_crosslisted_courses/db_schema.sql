@@ -62,6 +62,6 @@ department
 -- **Maddie** finish the code for this table, run code in sqlite to create the table
 ----------------------------------------------------------------------------------
 CREATE TABLE divisions(
-division_id INTEGER,
-division 
+division_id INTEGER PRIMARY KEY,
+division VARCHAR(10)
 );

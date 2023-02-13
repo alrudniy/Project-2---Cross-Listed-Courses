@@ -1,0 +1,14 @@
+<table>
+  <thead>
+    <tr>
+      <th>Division ID</th>
+      <th>Division Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{division_id}</td>
+      <td>{division}</td>
+    </tr>
+  </tbody>
+</table>

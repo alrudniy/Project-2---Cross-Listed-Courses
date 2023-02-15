@@ -63,5 +63,5 @@ department
 ----------------------------------------------------------------------------------
 CREATE TABLE divisions(
 division_id INTEGER PRIMARY KEY,
-division VARCHAR(10)
+division VARCHAR(20)
 );

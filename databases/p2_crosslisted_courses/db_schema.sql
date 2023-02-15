@@ -16,10 +16,10 @@ course_id INTEGER PRIMARY KEY,
 subject_code VARCHAR(10),
 course_number  VARCHAR(10),
 college  VARCHAR(5),
-department_code
-division_code
-short_title
-long_title 
+department_code INTEGER
+division_code INTEGER
+short_title VARCHAR(30)
+long_title VARCHAR(70)
 last_term_offered 
 );
 

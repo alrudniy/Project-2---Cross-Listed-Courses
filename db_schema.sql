@@ -36,8 +36,9 @@ attribute_description
 -- **Katerina** finish the code for this table, run code in sqlite to create the table
 ----------------------------------------------------------------------------------
 CREATE TABLE prerequisites (
-prereq_code VARCHAR(10) PRIMARY KEY,
-prerequisite
+subject_code VARCHAR(10),
+course_id INTEGER,
+PRIMARY KEY ( subject_code, course_id)
 );
 
 ----------------------------------------------------------------------------------

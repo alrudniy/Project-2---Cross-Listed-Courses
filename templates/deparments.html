@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Department List</title>
+  </head>
+  <body>
+    <h1>Deparment List</h1>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+      </tr>
+      {% for deparment in department_list %}
+      <tr>
+        <td>{{ department.department_id }}</td>
+        <td>{{ department.department_name }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>

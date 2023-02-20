@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Prerequisites</title>
+  </head>
+  <body>
+    <h1>Prerequisites</h1>
+    <table>
+      <tr>
+        <th>Subject Code</th>
+        <th>Course id</th>
+      </tr>
+      {% for Prerequisites in subject_code %}
+      {% for Prerequisites in course_id %}
+      <tr>
+        <td>{{ Prerequisites.subject_code }}</td>
+        <td>{{ Prerequisites.course_id }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>

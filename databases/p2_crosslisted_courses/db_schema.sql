@@ -12,16 +12,17 @@
 -- **Alan** finish the code for this table, run code in sqlite to create the table
 ----------------------------------------------------------------------------------
 CREATE TABLE courses (
-course_id INTEGER PRIMARY KEY,
+course_id INTEGER PRIMARY KEY
 subject_code VARCHAR(10),
 course_number  VARCHAR(10),
 college  VARCHAR(5),
-department_code INTEGER
-division_code INTEGER
-short_title VARCHAR(30)
-long_title VARCHAR(70)
-last_term_offered 
+department_code INTEGER,
+division_code INTEGER,
+short_title VARCHAR(30),
+long_title VARCHAR(70),
+last_term_offered INTEGER(6),
 );
+
 
 ----------------------------------------------------------------------------------
 -- **Jarry** finish the code for this table, run code in sqlite to create the table

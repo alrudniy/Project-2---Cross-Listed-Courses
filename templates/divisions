@@ -1,14 +1,21 @@
-<table>
-  <thead>
-    <tr>
-      <th>Division ID</th>
-      <th>Division Name</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>{division_id}</td>
-      <td>{division}</td>
-    </tr>
-  </tbody>
-</table>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Divisions List</title>
+  </head>
+  <body>
+    <h1>Divisions List</h1>
+    <table>
+      <tr>
+        <th>Division</th>
+        <th>Division ID</th>
+      </tr>
+      {% for division in division_id %}
+      <tr>
+        <td>{{ divisions.division }}</td>
+        <td>{{ divisions.division_id }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>

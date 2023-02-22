@@ -64,4 +64,4 @@ def faculty_committee_last_five():
     return render_template('faculty_committee_last_five.html', faculty_committee_list=faculty_committee_list)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=0)

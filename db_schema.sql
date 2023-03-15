@@ -55,7 +55,7 @@ PRIMARY KEY ( course_id, attribute_code, prereq_code)
 ----------------------------------------------------------------------------------
 CREATE TABLE departments(
 department_id INTEGER PRIMARY KEY,
-department 
+department VARCHAR(255)
 ) ;
 
 ----------------------------------------------------------------------------------

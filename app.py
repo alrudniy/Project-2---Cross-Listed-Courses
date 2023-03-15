@@ -15,38 +15,40 @@ app = Flask(__name__)
 # to create a new database run this command in terminal:
 # sqlite ./instance/faculty_committees.db
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cross_listed_courses.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql:///liz:csci400@34.71.71.82/p2_courses"
 db = SQLAlchemy(app)
 
 # Define the models
-class Faculty(db.Model):
-    faculty_email = db.Column(db.String(255), primary_key=True)
-    faculty_name = db.Column(db.String(255), unique=True, nullable=False)
+class Course_Attributes(db.Model):
+    attribute_code = db.Column(db.String(255), primary_key=True)
+    attribute = db.Column(db.String(255))
+    attribute_description = db.Column(db.String(255))
 
-class Committee(db.Model):
-    designation = db.Column(db.String(255))
-    committee_code = db.Column(db.String(255), primary_key=True )
-    committee_name = db.Column(db.String(255), unique=True, nullable=False)
-    committee_type = db.Column(db.String(255))
+class Courses (db.Model):
+    course_id = db.Column(db.Integer, primary_key=True)
+    subject_code = db.Column(db.String(10))
+    course_number = db.Column(db.String(10))
+    college = db.Column(db.String(5))
+    deparment_code = db.Column(db.Integer)
+    division_code = db.Column(db.Integer)
+    short_title = db.Column(db.String(100))
+    long_title = db.Column(db.String(255))
+    last_term_offered = db.Column(db.Integer, nullable=False)
 
-class Faculty_Committee(db.Model):
-    committee_code = db.Column(db.String(255), ForeignKey("committee.committee_code"), primary_key=True, nullable=False)
-    faculty_email = db.Column(db.String(255), ForeignKey("faculty.faculty.email"), primary_key=True, nullable=False)
-    faculty_end_semester = db.Column(db.String(255))
-    membership_type = db.Column(db.String(255))
-    designation = db.Column(db.String(255))
-    academic_year = db.Column(db.String(255), primary_key=True, nullable=False)
+class Departments (db.Model):
+    department_id = db.Column(db.Integer, primary_key=True)
+    department = db.Column(db.String(255))
+
 
 # Define routes
 @app.route('/')
 def home():
     return render_template('home.html')
 
-@app.route('/faculty')
-def faculty():
-    faculty_list = Faculty.query.all()
-    return render_template('faculty.html', faculty_list=faculty_list)
-    #return render_template('faculty.html')
+@app.route('/departments')
+def departments():
+    department_list = Departments.query.all()
+    return render_template('departments.html', department_list=department_list)
 
 @app.route('/committees')
 def committees():

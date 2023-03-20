@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <title>Divisions</title>
+  </head>
+  <body>
+    <h1>Divisions</h1>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Division</th>
+      </tr>
+      {% for division in divisions_list %}
+      <tr>
+        <td>{{ division.division_id }}</td>
+        <td>{{ division.division }}</td> 
+</tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>

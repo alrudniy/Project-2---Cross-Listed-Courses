@@ -15,7 +15,7 @@ app = Flask(__name__)
 # to create a new database run this command in terminal:
 # sqlite ./instance/faculty_committees.db
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql:///liz:csci400@34.71.71.82/p2_courses"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql:///p2:csci400@34.71.71.82:3306/p2_courses"
 db = SQLAlchemy(app)
 
 # Define the models
@@ -39,31 +39,55 @@ class Departments (db.Model):
     department_id = db.Column(db.Integer, primary_key=True)
     department = db.Column(db.String(255))
 
+class Divisions (db.Model):
+    division_id = db.Column(db.Integer, primary_key=True)
+    division = db.Column(db.String(20))
+
+class Faculty (db.Model):
+    faculty_id = db.Column(db.Integer, primary_key=True)
+    faculty_email = db.Column(db.String(255))
+    faculty_name = db.Column(db.String(255))
+
+class Prerequisites (db.Model):
+    subject_code = db.Column(db.String(10), primary_key=True)
+    course_id = db.Column(db.String(10), primary_key=True)
+
 
 # Define routes
 @app.route('/')
 def home():
     return render_template('home.html')
 
+@app.route('/course_attributes')
+def course_attributes():
+    course_attributes_list = Course_Attributes.query.order_by(Course_Attributes.some_column).all()
+    return render_template('course_attributes.html', course_attributes_list=course_attributes_list)
+
+@app.route('/courses')
+def courses():
+    courses_list = Courses.query.order_by(Courses.some_column).all()
+    return render_template('courses.html', courses_list=courses_list)
+
 @app.route('/departments')
 def departments():
-    department_list = Departments.query.all()
-    return render_template('departments.html', department_list=department_list)
+    departments_list = Departments.query.order_by(Departments.department).all()
+    return render_template('departments.html', departments_list=departments_list)
 
-@app.route('/committees')
-def committees():
-    committee_list = Committee.query.all()
-    return render_template('committees.html', committee_list=committee_list)
+@app.route('/divisions')
+def divisions():
+    divisions_list = Divisions.query.order_by(Divisions.some_column).all()
+    return render_template('divisions.html', divisions_list=divisions_list)
 
-@app.route('/faculty-committee-all')
-def faculty_committee_all():
-    faculty_committee_list = Faculty_Committee.query.order_by(Faculty_Committee.academic_year).all()
-    return render_template('faculty_committee_all.html', faculty_committee_list=faculty_committee_list)
+@app.route('/faculty')
+def faculty():
+    faculty_list = Faculty.query.order_by(Faculty.some_column).all()
+    return render_template('faculty.html', faculty_list=faculty_list)
 
-@app.route('/faculty-committee-last-five')
-def faculty_committee_last_five():
-    faculty_committee_list = Faculty_Committee.query.order_by(Faculty_Committee.academic_year.desc()).limit(5).all()
-    return render_template('faculty_committee_last_five.html', faculty_committee_list=faculty_committee_list)
+@app.route('/prerequisites')
+def prerequisites():
+    prerequisites_list = Prerequisites.query.order_by(Prerequisites.some_column).all()
+    return render_template('prerequisites.html', prerequisites_list=prerequisites_list)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

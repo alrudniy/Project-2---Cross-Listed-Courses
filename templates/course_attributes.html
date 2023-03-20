@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <title>Course Attribute</title>
+  </head>
+  <body>
+    <h1>Course Attribute</h1>
+    <table>
+      <tr>
+        <th>Code</th>
+        <th>Attribute</th>
+        <th>Description</th>
+      </tr>
+      {% for attribute in course_attributes_list %}
+      <tr>
+        <td>{{ attribute.attribute_code }}</td>
+        <td>{{ attribute.attribute }}</td>
+        <td>{{ attribute.attribute_description }}</td>  
+</tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>

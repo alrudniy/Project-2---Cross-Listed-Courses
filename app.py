@@ -29,6 +29,12 @@ class Committee(db.Model):
     committee_name = db.Column(db.String(255), unique=True, nullable=False)
     committee_type = db.Column(db.String(255))
 
+class Course(db.Model):
+    designation = db.Column(db.String(255))
+    committee_code = db.Column(db.String(255), primary_key=True )
+    committee_name = db.Column(db.String(255), unique=True, nullable=False)
+    committee_type = db.Column(db.String(255))
+
 class Faculty_Committee(db.Model):
     committee_code = db.Column(db.String(255), ForeignKey("committee.committee_code"), primary_key=True, nullable=False)
     faculty_email = db.Column(db.String(255), ForeignKey("faculty.faculty.email"), primary_key=True, nullable=False)
@@ -46,6 +52,12 @@ def home():
 def faculty():
     faculty_list = Faculty.query.all()
     return render_template('faculty.html', faculty_list=faculty_list)
+    #return render_template('faculty.html')
+
+@app.route('/courses')
+def courses():
+    course_list = Course.query.all()
+    return render_template('courses.html', course_list=course_list)
     #return render_template('faculty.html')
 
 @app.route('/committees')

@@ -29,11 +29,16 @@ class Committee(db.Model):
     committee_name = db.Column(db.String(255), unique=True, nullable=False)
     committee_type = db.Column(db.String(255))
 
-class Course(db.Model):
+class Courses(db.Model):
+    __tablename__ = "courses"
     designation = db.Column(db.String(255))
-    committee_code = db.Column(db.String(255), primary_key=True )
-    committee_name = db.Column(db.String(255), unique=True, nullable=False)
-    committee_type = db.Column(db.String(255))
+    course_id = db.Column(db.String(255))
+    subject_code = db.Column(db.String(255))
+    course_number = db.Column(db.String(255))
+    college = db.Column(db.String(255))
+    short_title = db.Column(db.String(255))
+    long_title = db.Column(db.String(255))
+    last_term_offered = db.Column(db.String(255))
 
 class Faculty_Committee(db.Model):
     committee_code = db.Column(db.String(255), ForeignKey("committee.committee_code"), primary_key=True, nullable=False)
@@ -56,9 +61,9 @@ def faculty():
 
 @app.route('/courses')
 def courses():
-    course_list = Course.query.all()
+    course_list = Courses.query.all()
     return render_template('courses.html', course_list=course_list)
-    #return render_template('faculty.html')
+    #return render_template('courses.html')
 
 @app.route('/committees')
 def committees():

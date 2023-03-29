@@ -15,32 +15,24 @@ app = Flask(__name__)
 # to create a new database run this command in terminal:
 # sqlite ./instance/faculty_committees.db
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cross_listed_courses.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://p2:csci400@34.71.71.82:3306/p2_courses"
 db = SQLAlchemy(app)
 
 # Define the models
-class Faculty(db.Model):
-    faculty_email = db.Column(db.String(255), primary_key=True)
-    faculty_name = db.Column(db.String(255), unique=True, nullable=False)
 
-class Committee(db.Model):
-    designation = db.Column(db.String(255))
-    committee_code = db.Column(db.String(255), primary_key=True )
-    committee_name = db.Column(db.String(255), unique=True, nullable=False)
-    committee_type = db.Column(db.String(255))
 
-class Faculty_Committee(db.Model):
-    committee_code = db.Column(db.String(255), ForeignKey("committee.committee_code"), primary_key=True, nullable=False)
-    faculty_email = db.Column(db.String(255), ForeignKey("faculty.faculty.email"), primary_key=True, nullable=False)
-    faculty_end_semester = db.Column(db.String(255))
-    membership_type = db.Column(db.String(255))
-    designation = db.Column(db.String(255))
-    academic_year = db.Column(db.String(255), primary_key=True, nullable=False)
+class course_attributes(db.Model):
+    __tablename__ = "course_attributes"
+    attribute_code = db.Column(db.String(255))
+    attribute = db.Column(db.String(255))
+    attribute_description = db.Column(db.String(255))
+    
 
 # Define routes
-@app.route('/')
-def home():
-    return render_template('home.html')
+@app.route('/course_attributes')
+def course_attributes():
+    course_attributes_list = course_attributes.query.order_by(course_attributes.attribute_code).all()
+    return render_template('course_attributes.html', course_attributes_list=course_attributes_list)
 
 @app.route('/faculty')
 def faculty():

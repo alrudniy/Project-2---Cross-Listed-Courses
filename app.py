@@ -15,7 +15,7 @@ app = Flask(__name__)
 # to create a new database run this command in terminal:
 # sqlite ./instance/faculty_committees.db
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql:///p2:csci400@34.71.71.82:3306/p2_courses"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://p2:csci400@34.71.71.82:3306/p2_courses"
 db = SQLAlchemy(app)
 
 # Define the models
@@ -70,7 +70,7 @@ def courses():
 
 @app.route('/departments')
 def departments():
-    departments_list = Departments.query.order_by(Departments.department).all()
+    departments_list = Departments.query.order_by(Departments.department_id).all()
     return render_template('departments.html', departments_list=departments_list)
 
 @app.route('/divisions')

@@ -1,20 +1,29 @@
 <html>
   <head>
     <title>Department List</title>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+       crossorigin="anonymous">
   </head>
   <body>
-    <h1>Department List</h1>
-    <table>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-      </tr>
-      {% for deparment in department_list %}
-      <tr>
-        <td>{{ department.department_id }}</td>
-        <td>{{ department.department }}</td>
-      </tr>
-      {% endfor %}
-    </table>
+    <div class = "container">
+      <h1 class = "display-4">Department List</h1>
+        <table class = "table table-bordered">
+          <thead>
+            <tr>
+              <th scope = "col">ID</th>
+              <th scope = "col">Name</th>
+            </tr>
+          </thead>
+        <tbody>
+          {% for department in departments_list %}
+            <tr>
+              <td>{{ department.department_id }}</td>
+              <td>{{ department.department }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </body>
 </html>

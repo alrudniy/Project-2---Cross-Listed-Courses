@@ -60,12 +60,12 @@ def home():
 
 @app.route('/course_attributes')
 def course_attributes():
-    course_attributes_list = Course_Attributes.query.order_by(Course_Attributes.some_column).all()
+    course_attributes_list = Course_Attributes.query.order_by(Course_Attributes.attribute_code).all()
     return render_template('course_attributes.html', course_attributes_list=course_attributes_list)
 
 @app.route('/courses')
 def courses():
-    courses_list = Courses.query.order_by(Courses.some_column).all()
+    courses_list = Courses.query.order_by(Courses.course_id).all()
     return render_template('courses.html', courses_list=courses_list)
 
 @app.route('/departments')
@@ -75,17 +75,17 @@ def departments():
 
 @app.route('/divisions')
 def divisions():
-    divisions_list = Divisions.query.order_by(Divisions.some_column).all()
+    divisions_list = Divisions.query.order_by(Divisions.division_id).all()
     return render_template('divisions.html', divisions_list=divisions_list)
 
 @app.route('/faculty')
 def faculty():
-    faculty_list = Faculty.query.order_by(Faculty.some_column).all()
+    faculty_list = Faculty.query.order_by(Faculty.faculty_id).all()
     return render_template('faculty.html', faculty_list=faculty_list)
 
 @app.route('/prerequisites')
 def prerequisites():
-    prerequisites_list = Prerequisites.query.order_by(Prerequisites.some_column).all()
+    prerequisites_list = Prerequisites.query.order_by(Prerequisites.subject_code).all()
     return render_template('prerequisites.html', prerequisites_list=prerequisites_list)
 
 

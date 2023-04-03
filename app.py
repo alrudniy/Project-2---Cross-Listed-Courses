@@ -19,7 +19,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://p2:csci400@34.71.71.82:3306/p2_
 db = SQLAlchemy(app)
 
 # Define the models
-class Course_Attributes(db.Model):
+class CourseAttributes(db.Model):
     attribute_code = db.Column(db.String(255), primary_key=True)
     attribute = db.Column(db.String(255))
     attribute_description = db.Column(db.String(255))
@@ -29,7 +29,7 @@ class Courses (db.Model):
     subject_code = db.Column(db.String(10))
     course_number = db.Column(db.String(10))
     college = db.Column(db.String(5))
-    deparment_code = db.Column(db.Integer)
+    department_code = db.Column(db.Integer)
     division_code = db.Column(db.Integer)
     short_title = db.Column(db.String(100))
     long_title = db.Column(db.String(255))
@@ -44,7 +44,7 @@ class Divisions (db.Model):
     division = db.Column(db.String(20))
 
 class Faculty (db.Model):
-    faculty_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     faculty_email = db.Column(db.String(255))
     faculty_name = db.Column(db.String(255))
 
@@ -60,7 +60,7 @@ def home():
 
 @app.route('/course_attributes')
 def course_attributes():
-    course_attributes_list = Course_Attributes.query.order_by(Course_Attributes.attribute_code).all()
+    course_attributes_list = CourseAttributes.query.order_by(CourseAttributes.attribute_code).all()
     return render_template('course_attributes.html', course_attributes_list=course_attributes_list)
 
 @app.route('/courses')
@@ -80,7 +80,7 @@ def divisions():
 
 @app.route('/faculty')
 def faculty():
-    faculty_list = Faculty.query.order_by(Faculty.faculty_id).all()
+    faculty_list = Faculty.query.order_by(Faculty.id).all()
     return render_template('faculty.html', faculty_list=faculty_list)
 
 @app.route('/prerequisites')

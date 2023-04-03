@@ -1,24 +1,31 @@
 <html>
   <head>
-    <link rel="stylesheet" href="path/to/bootstrap.css">
-    <script src="path/to/bootstrap.js"></script>
-    <title>Course Attribute</title>
+    <title>Course Attributes</title>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+       crossorigin="anonymous">
   </head>
   <body>
-    <h1>Course Attribute</h1>
-    <table>
-      <tr>
-        <th>Code</th>
-        <th>Attribute</th>
-        <th>Description</th>
-      </tr>
-      {% for attribute in course_attributes_list %}
-      <tr>
-        <td>{{ attribute.attribute_code }}</td>
-        <td>{{ attribute.attribute }}</td>
-        <td>{{ attribute.attribute_description }}</td>  
-</tr>
-      {% endfor %}
-    </table>
+    <div class = "container">
+      <h1 class = "display-4">Course Attributes</h1>
+        <table class = "table table-bordered">
+          <thead>
+            <tr>
+              <th scope = "col">Code</th>
+              <th scope = "col">Attribute</th>
+              <th scope = "col">Description</th>
+            </tr>
+          </thead>
+        <tbody>
+          {% for attribute in course_attributes_list %}
+            <tr>
+              <td>{{ attribute.attribute_code }}</td>
+              <td>{{ attribute.attribute }}</td>
+              <td>{{ attribute.attribute_description }}</td> 
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </body>
 </html>

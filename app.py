@@ -22,7 +22,7 @@ db = SQLAlchemy(app)
 # Define the models
 class Faculty(db.Model):
     faculty_email = db.Column(db.String(255), primary_key=True)
-    faculty_name = db.Column(db.String(255), unique=True, nullable=False)
+    faculty_name = db.Column(db.String(255), unique=True, nullable=False)ç
 
 class Committee(db.Model):
     designation = db.Column(db.String(255))
@@ -32,7 +32,6 @@ class Committee(db.Model):
 
 class Courses(db.Model):
     __tablename__ = "courses"
-    designation = db.Column(db.String(255))
     course_id = db.Column(db.String(255), primary_key=True)
     subject_code = db.Column(db.String(255))
     course_number = db.Column(db.String(255))

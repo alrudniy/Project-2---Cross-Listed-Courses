@@ -37,7 +37,7 @@ attribute_description
 ----------------------------------------------------------------------------------
 CREATE TABLE prerequisites (
 subject_code VARCHAR(10),
-course_id INTEGER,
+course_id VARCHAR(10),
 PRIMARY KEY ( subject_code, course_id)
 );
 

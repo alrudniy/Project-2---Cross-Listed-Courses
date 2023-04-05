@@ -21,18 +21,23 @@ db = SQLAlchemy(app)
 # Define the models
 
 
-class course_attributes(db.Model):
+class Course_Attributes(db.Model):
     __tablename__ = "course_attributes"
-    attribute_code = db.Column(db.String(255))
+    attribute_code = db.Column(db.String(255), primary_key=True)
     attribute = db.Column(db.String(255))
     attribute_description = db.Column(db.String(255))
     
 
 # Define routes
-@app.route('/course_attributes')
+@app.route('/course-attributes')
 def course_attributes():
-    course_attributes_list = course_attributes.query.order_by(course_attributes.attribute_code).all()
+    course_attributes_list = Course_Attributes.query.order_by(course_attributes.attribute_code).all()
     return render_template('course_attributes.html', course_attributes_list=course_attributes_list)
+
+# Define routes
+@app.route('/')
+def home():
+    return render_template('home.html')
 
 @app.route('/faculty')
 def faculty():

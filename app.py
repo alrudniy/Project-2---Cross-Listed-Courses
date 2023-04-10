@@ -75,3 +75,40 @@ def committees():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+@app.route('/add_divisions', methods=['GET', 'POST'])
+def add_divisions():
+    if request.method == 'POST':
+        email = request.form['division']
+        name = request.form['division_id']
+        faculty = Faculty(divisions_list=division, Division_id=division_id)
+        db.session.add(division)
+        db.session.commit()
+        return redirect(url_for('divisions_list'))
+    return render_template('add_divisions.html')
+
+
+from flask import Flask, render_template, request, redirect, url_for
+class Faculty(db.Model):
+    __name__ = 'divisions'
+    division = db.Column(db.String(255), primary_key=True)
+    division_id = db.Column(db.String(255), unique=True, nullable=False)
+
+@app.route('/edit_divisions/<division>', methods=['GET', 'POST'])
+def edit_divisions(division):
+    faculty = Faculty.query.get(division)
+    if request.method == 'POST':
+        divisions.division = request.form['division']
+        db.session.commit()
+        return redirect(url_for('division'))
+    return render_template('edit_divisions.html', division = division)
+
+@app.route('/edit_division_id/<division_id>', methods=['GET', 'POST'])
+def edit_division_id(division_id):
+    division_id = Faculty.query.get(division_id)
+    if request.method == 'POST':
+        division.division_id = request.form['division_id']
+        db.session.commit()
+        return redirect(url_for('division_id'))
+    return render_template('edit_division_id.html', division=division)
+

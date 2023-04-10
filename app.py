@@ -5,6 +5,7 @@ Faculty (Faculty Email, Faculty Name)
 Faculty-Committee(Committee Code, Faculty Name, Faculty Start Semester, Membership Type, Designation, Academic Year) 
 """
 from flask import Flask, render_template
+from flask import request, redirect, url_for
 # pip3 install flask-sqlalchemy
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, ForeignKey, Integer, String
@@ -54,6 +55,33 @@ class Prerequisites (db.Model):
 
 
 # Define routes
+
+@app.route('/add_course', methods=['GET', 'POST'])
+def add_course():
+     if request.method == 'POST':
+        id = request.form['course_id']
+        subject_code = request.form['subject_code']
+        number = request.form['course_number']
+        college = request.form['college']
+        longtitle = request.form['long_title']
+        shorttitle = request.form['short_title']
+        last_term = request.form['last_term_offered']
+        Courses = Courses(course_id=id, subject_code=subject_code, course_number=number, college=college, long_title=longtitle, short_title=shorttitle, last_term_offered=last_term)
+        db.session.add(Courses)
+        db.session.commit()
+        return redirect(url_for('course_list'))
+     return render_template('add_course.html')
+
+@app.route('/edit_course/<course_id>', methods=['GET', 'POST'])
+def edit_faculty(course_id):
+    course = Courses.query.get(course_id)
+    if request.method == 'POST':
+        course.short_title = request.form['short_title']
+        db.session.commit()
+        return redirect(url_for('course_list'))
+    return render_template('edit_course.html', course=course)
+
+
 @app.route('/')
 def home():
     return render_template('home.html')

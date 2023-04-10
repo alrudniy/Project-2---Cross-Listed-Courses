@@ -1,10 +1,4 @@
-"""
-Write a Python Flask application that has separate pages to display all faculty, all committees, faculty participation in committee for all time sorted by academic year, and faculty participation in committee for last 5 academic years sorted by year. App must have a menu. Use this database schema: 
-Committee (Designation, Committee Code, Committee Name, Committee Type)
-Faculty (Faculty Email, Faculty Name)
-Faculty-Committee(Committee Code, Faculty Name, Faculty Start Semester, Membership Type, Designation, Academic Year) 
-"""
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 # pip3 install flask-sqlalchemy
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, ForeignKey, Integer, String
@@ -37,7 +31,7 @@ class Courses (db.Model):
 
 class Departments (db.Model):
     department_id = db.Column(db.Integer, primary_key=True)
-    department = db.Column(db.String(255))
+    department_name = db.Column(db.String(255))
 
 class Divisions (db.Model):
     division_id = db.Column(db.Integer, primary_key=True)
@@ -53,7 +47,7 @@ class Prerequisites (db.Model):
     course_id = db.Column(db.String(10), primary_key=True)
 
 
-# Define routes
+# Table routes
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -61,32 +55,54 @@ def home():
 @app.route('/course_attributes')
 def course_attributes():
     course_attributes_list = CourseAttributes.query.order_by(CourseAttributes.attribute_code).all()
-    return render_template('course_attributes.html', course_attributes_list=course_attributes_list)
+    return render_template('TABLES/course_attributes.html', course_attributes_list=course_attributes_list)
 
 @app.route('/courses')
 def courses():
     courses_list = Courses.query.order_by(Courses.course_id).all()
-    return render_template('courses.html', courses_list=courses_list)
+    return render_template('TABLES/courses.html', courses_list=courses_list)
 
 @app.route('/departments')
 def departments():
     departments_list = Departments.query.order_by(Departments.department_id).all()
-    return render_template('departments.html', departments_list=departments_list)
+    return render_template('TABLES/departments.html', departments_list=departments_list)
 
 @app.route('/divisions')
 def divisions():
     divisions_list = Divisions.query.order_by(Divisions.division_id).all()
-    return render_template('divisions.html', divisions_list=divisions_list)
+    return render_template('TABLES/divisions.html', divisions_list=divisions_list)
 
 @app.route('/faculty')
 def faculty():
     faculty_list = Faculty.query.order_by(Faculty.id).all()
-    return render_template('faculty.html', faculty_list=faculty_list)
+    return render_template('TABLES/faculty.html', faculty_list=faculty_list)
 
 @app.route('/prerequisites')
 def prerequisites():
     prerequisites_list = Prerequisites.query.order_by(Prerequisites.subject_code).all()
-    return render_template('prerequisites.html', prerequisites_list=prerequisites_list)
+    return render_template('TABLES/prerequisites.html', prerequisites_list=prerequisites_list)
+
+# Add to table routes
+@app.route('/add_department', methods=['GET', 'POST'])
+def add_department():
+    if request.method == 'POST':
+        id = request.form['department_id']
+        name = request.form['department_name']
+        department = Departments(department_id=id, department_name=name)
+        db.session.add(department)
+        db.session.commit()
+        return redirect(url_for('departments'))
+    return render_template('ADD/add_department.html')
+
+# Edit table routes
+@app.route('/edit_departments/<department_id>', methods=['GET', 'POST'])
+def edit_departments(department_id):
+    departments = Departments.query.get(department_id)
+    if request.method == 'POST':
+        departments.department_name = request.form['department_name']
+        db.session.commit()
+        return redirect(url_for('departments'))
+    return render_template('EDIT/edit_departments.html', departments=departments)
 
 
 if __name__ == '__main__':

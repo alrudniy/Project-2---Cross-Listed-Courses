@@ -16,6 +16,20 @@
         <td>{{ faculty.faculty_name }}</td>
       </tr>
       {% endfor %}
+      <h1>Add Faculty</h1>
+      <form method="POST">
+          <label>Email:</label> <input type="text" name="faculty_email"> <br>
+          <label>Name:</label> <input type="text" name="faculty_name"> <br>
+          <input type="submit" value="Save">
+      </form>
+    
+      <h1>Edit Faculty</h1>
+      <form method="POST">
+          <label>Email:</label> {{ faculty.faculty_email }} <br>
+          <label>Name:</label> <input type="text" name="faculty_name" value="{{ faculty.faculty_name }}"> <br>
+          <input type="submit" value="Save">
+      </form>   
+
     </table>
   </body>
 </html>

@@ -15,7 +15,7 @@ app = Flask(__name__)
 # to create a new database run this command in terminal:
 # sqlite ./instance/faculty_committees.db
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cross_listed_courses.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql:///p2:csci400@host/database'
 db = SQLAlchemy(app)
 
 # Define the models
@@ -36,6 +36,11 @@ class Faculty_Committee(db.Model):
     membership_type = db.Column(db.String(255))
     designation = db.Column(db.String(255))
     academic_year = db.Column(db.String(255), primary_key=True, nullable=False)
+
+class Divisions(db.Model):
+    __tablename__ = "Divisions"
+    column_1 = db.Column(db.String(255), ForeignKey("divisions.division"), primary_key=True, nullable=False)
+    column_2 = db.Column(db.String(255), ForeignKey("divisions.division_id"), primary_key=True, nullable=False)
 
 # Define routes
 @app.route('/')
@@ -62,6 +67,11 @@ def faculty_committee_all():
 def faculty_committee_last_five():
     faculty_committee_list = Faculty_Committee.query.order_by(Faculty_Committee.academic_year.desc()).limit(5).all()
     return render_template('faculty_committee_last_five.html', faculty_committee_list=faculty_committee_list)
+
+@app.route('/divisions')
+def committees():
+    committee_list = Divisions.query.all()
+    return render_template('divisions.html', divisions_list=divisions_list)
 
 if __name__ == '__main__':
     app.run(debug=True)

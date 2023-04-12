@@ -97,12 +97,12 @@ def add_department():
 # Edit table routes
 @app.route('/edit_departments/<department_id>', methods=['GET', 'POST'])
 def edit_departments(department_id):
-    departments = Departments.query.get(department_id)
+    department = Departments.query.get(department_id)
     if request.method == 'POST':
-        departments.department_name = request.form['department_name']
+        department.department_name = request.form['department_name']
         db.session.commit()
         return redirect(url_for('departments'))
-    return render_template('EDIT/edit_departments.html', departments=departments)
+    return render_template('EDIT/edit_departments.html', department=department)
 
 
 if __name__ == '__main__':

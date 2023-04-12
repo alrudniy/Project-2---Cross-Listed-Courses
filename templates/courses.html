@@ -25,7 +25,7 @@
         <tbody>
           {% for course in courses_list %}
             <tr>
-              <td>{{ course.course_id }}</td>
+              <td> <a href="edit_course/{{ course.course_id }}"> {{ course.course_id }} </a> </td>
               <td>{{ course.subject_code }}</td>
               <td>{{ course.course_number }}</td>
               <td>{{ course.college }}</td>

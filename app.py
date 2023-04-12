@@ -59,26 +59,31 @@ class Prerequisites (db.Model):
 @app.route('/add_course', methods=['GET', 'POST'])
 def add_course():
      if request.method == 'POST':
-        id = request.form['course_id']
+        course_id = request.form['course_id']
         subject_code = request.form['subject_code']
         number = request.form['course_number']
         college = request.form['college']
-        longtitle = request.form['long_title']
-        shorttitle = request.form['short_title']
+        long_title = request.form['long_title']
+        short_title = request.form['short_title']
         last_term = request.form['last_term_offered']
-        Courses = Courses(course_id=id, subject_code=subject_code, course_number=number, college=college, long_title=longtitle, short_title=shorttitle, last_term_offered=last_term)
-        db.session.add(Courses)
+        New_Courses = Courses(course_id=course_id, subject_code=subject_code, course_number=number, college=college, long_title=long_title, short_title=short_title, last_term_offered=last_term)
+        db.session.add(New_Courses)
         db.session.commit()
-        return redirect(url_for('course_list'))
+        return redirect(url_for('courses'))
      return render_template('add_course.html')
 
 @app.route('/edit_course/<course_id>', methods=['GET', 'POST'])
 def edit_faculty(course_id):
     course = Courses.query.get(course_id)
     if request.method == 'POST':
+        course.subject_code = request.form['subject_code']
+        course.course_number = request.form['course_number']
+        course.college = request.form['college']
+        course.long_title = request.form['long_title']
         course.short_title = request.form['short_title']
+        course.last_term_offered = request.form['last_term_offered']
         db.session.commit()
-        return redirect(url_for('course_list'))
+        return redirect(url_for('courses'))
     return render_template('edit_course.html', course=course)
 
 

@@ -39,8 +39,8 @@ class Faculty_Committee(db.Model):
 
 class Divisions(db.Model):
     __tablename__ = "Divisions"
-    column_1 = db.Column(db.String(255), ForeignKey("divisions.division"), primary_key=True, nullable=False)
-    column_2 = db.Column(db.String(255), ForeignKey("divisions.division_id"), primary_key=True, nullable=False)
+    division = db.Column(db.String(255), nullable=False)
+    division_id = db.Column(db.String(255), primary_key=True, nullable=False)
 
 # Define routes
 @app.route('/')
@@ -69,8 +69,8 @@ def faculty_committee_last_five():
     return render_template('faculty_committee_last_five.html', faculty_committee_list=faculty_committee_list)
 
 @app.route('/divisions')
-def committees():
-    committee_list = Divisions.query.all()
+def divisions():
+    divisions_list = Divisions.query.all()
     return render_template('divisions.html', divisions_list=divisions_list)
 
 if __name__ == '__main__':
@@ -79,20 +79,16 @@ if __name__ == '__main__':
 @app.route('/add_divisions', methods=['GET', 'POST'])
 def add_divisions():
     if request.method == 'POST':
-        email = request.form['division']
-        name = request.form['division_id']
-        faculty = Faculty(divisions_list=division, Division_id=division_id)
-        db.session.add(division)
+        div = request.form['division']
+        div_id = request.form['division_id']
+        divisions = Divisions(division=div, Division_id=div_id)
+        db.session.add(divisions)
         db.session.commit()
         return redirect(url_for('divisions_list'))
     return render_template('add_divisions.html')
 
 
 from flask import Flask, render_template, request, redirect, url_for
-class Faculty(db.Model):
-    __name__ = 'divisions'
-    division = db.Column(db.String(255), primary_key=True)
-    division_id = db.Column(db.String(255), unique=True, nullable=False)
 
 @app.route('/edit_divisions/<division>', methods=['GET', 'POST'])
 def edit_divisions(division):
@@ -107,8 +103,8 @@ def edit_divisions(division):
 def edit_division_id(division_id):
     division_id = Faculty.query.get(division_id)
     if request.method == 'POST':
-        division.division_id = request.form['division_id']
+        divisions.division_id = request.form['division_id']
         db.session.commit()
         return redirect(url_for('division_id'))
-    return render_template('edit_division_id.html', division=division)
+    return render_template('edit_division_id.html', division=divisions)
 

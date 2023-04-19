@@ -2,21 +2,30 @@
 <html>
   <head>
     <title>Prerequisites</title>
+    <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous">
   </head>
   <body>
-    <h1>Prerequisites</h1>
-    <table>
-      <tr>
-        <th>Subject Code</th>
-        <th>Course id</th>
-      </tr>
-      {% for Prerequisites in subject_code %}
-      {% for Prerequisites in course_id %}
-      <tr>
-        <td>{{ Prerequisites.subject_code }}</td>
-        <td>{{ Prerequisites.course_id }}</td>
-      </tr>
-      {% endfor %}
-    </table>
+    <div class="container">
+      <h1 class="title-4">Prerequisites</h1>
+        <table class="table table-shell"></table>
+          <thead>
+            <tr>
+              <th scope = "col">Subject Code</th>
+              <th scope = "col">Course id</th>
+            </tr>
+          </thead>
+        <tbody>
+          {% for Prereq in prerequisites_list %}
+            <tr>
+              <td> <a href="edit_prerequisites/{{ prerequisites.cubject_code }}"> {{ prerequisites.subject_code }} </a> </td>
+              <td>{{ prerequisites.course_id }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </body>
 </html>

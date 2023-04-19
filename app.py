@@ -4,10 +4,13 @@ Committee (Designation, Committee Code, Committee Name, Committee Type)
 Faculty (Faculty Email, Faculty Name)
 Faculty-Committee(Committee Code, Faculty Name, Faculty Start Semester, Membership Type, Designation, Academic Year) 
 """
-from flask import Flask, render_template
+from crypt import methods
+from flask import Flask, render_template, request, redirect, url_for
 # pip3 install flask-sqlalchemy
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, ForeignKey, Integer, String
+from flask import Flask, render_template, request, redirect, url_for
+
 
 app = Flask(__name__)
 
@@ -15,53 +18,58 @@ app = Flask(__name__)
 # to create a new database run this command in terminal:
 # sqlite ./instance/faculty_committees.db
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cross_listed_courses.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://p2:csci400@34.71.71.82:3306/p2_courses"
 db = SQLAlchemy(app)
 
 # Define the models
-class Faculty(db.Model):
-    faculty_email = db.Column(db.String(255), primary_key=True)
-    faculty_name = db.Column(db.String(255), unique=True, nullable=False)
 
-class Committee(db.Model):
-    designation = db.Column(db.String(255))
-    committee_code = db.Column(db.String(255), primary_key=True )
-    committee_name = db.Column(db.String(255), unique=True, nullable=False)
-    committee_type = db.Column(db.String(255))
 
-class Faculty_Committee(db.Model):
-    committee_code = db.Column(db.String(255), ForeignKey("committee.committee_code"), primary_key=True, nullable=False)
-    faculty_email = db.Column(db.String(255), ForeignKey("faculty.faculty.email"), primary_key=True, nullable=False)
-    faculty_end_semester = db.Column(db.String(255))
-    membership_type = db.Column(db.String(255))
-    designation = db.Column(db.String(255))
-    academic_year = db.Column(db.String(255), primary_key=True, nullable=False)
+
+class Prerequisites(db.Model):
+    __tablename__ = "prerequisites"
+    subject_code = db.Column(db.VARCHAR(10), primary_key=True, nullable=False)
+    course_id = db.Column(db.VARCHAR(10), primary_key=True, nullable=False)
+
+
 
 # Define routes
 @app.route('/')
 def home():
     return render_template('home.html')
 
-@app.route('/faculty')
-def faculty():
-    faculty_list = Faculty.query.all()
-    return render_template('faculty.html', faculty_list=faculty_list)
-    #return render_template('faculty.html')
 
-@app.route('/committees')
-def committees():
-    committee_list = Committee.query.all()
-    return render_template('committees.html', committee_list=committee_list)
 
-@app.route('/faculty-committee-all')
-def faculty_committee_all():
-    faculty_committee_list = Faculty_Committee.query.order_by(Faculty_Committee.academic_year).all()
-    return render_template('faculty_committee_all.html', faculty_committee_list=faculty_committee_list)
+@app.route('/prerequisites')
+def prerequisites():
+    prerequisites_list = Prerequisites.query.order_by(Prerequisites.subject_code).all()
+    return render_template('prerequisites.html', prerequisites_list=prerequisites_list)
 
-@app.route('/faculty-committee-last-five')
-def faculty_committee_last_five():
-    faculty_committee_list = Faculty_Committee.query.order_by(Faculty_Committee.academic_year.desc()).limit(5).all()
-    return render_template('faculty_committee_last_five.html', faculty_committee_list=faculty_committee_list)
+@app.route('/add_prerequisites', methods={'GET', 'POST'})
+def add_prerequisites():
+    if request.method =='POST':
+        subject_code = request.form['prerequisites_subject_code']
+        course_id = request.form['prerequisites_course_id']
+        prerequisites = Prerequisites(prerequisites_subject_code=subject_code, prerequisites_course_id=course_id)
+        db.session.add(prerequisites)
+        db.session.commit()
+        return redirect(url_for('prerequisites'))
+    return render_template('add_prerequisites.html')
 
+
+
+
+
+@app.route('/edit_prerequisites/<subject_code>', methods=['GET', 'POST'])
+def edit_prerequisites(subject_code):
+    prerequisites = Prerequisites.query.get(subject_code)
+    if request.method == 'POST':
+        prerequisites.course_id = request.form['course_id']
+        db.session.commit()
+        return redirect(url_for('prerequisites'))
+    return render_template('edit_prerequisites.html', prerequisites=prerequisites)
+
+                          
 if __name__ == '__main__':
     app.run(debug=True)
+
+

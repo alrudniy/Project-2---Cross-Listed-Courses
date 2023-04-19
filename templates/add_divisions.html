@@ -10,21 +10,14 @@
   </head>
   <body>
   <div class="table table-dark">
-    <h1 class="table table-hover table-dark">Divisions</h1>
-    <table class="table table-dark">
-    <h1>Divisions List</h1>
-    <table>
-      <tr>
-        <th>Division</th>
-        <th>Division ID</th>
-      </tr>
-      {% for division in division_id %}
-      <tr>
-        <td>{{ divisions.division }}</td>
-        <td>{{ divisions.division_id }}</td>
-      </tr>
-      {% endfor %}
-    </table>
+    <h1>Add Divisions</h1>
+    <form method="POST">
+        <label>Division:</label> <input type="text" name="division"> <br>
+        <label>Division_id:</label> <input type="text" name="division_id"> <br>
+        <input type="submit" value="Save">
+    </form>
   </div>
   </body>
 </html>
+
+

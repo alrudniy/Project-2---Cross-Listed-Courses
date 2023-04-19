@@ -15,30 +15,14 @@ app = Flask(__name__)
 # to create a new database run this command in terminal:
 # sqlite ./instance/faculty_committees.db
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql:///p2:csci400@host/database'
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://p2:csci400@34.71.71.82:3306/p2_courses"
 db = SQLAlchemy(app)
 
 # Define the models
-class Faculty(db.Model):
-    faculty_email = db.Column(db.String(255), primary_key=True)
-    faculty_name = db.Column(db.String(255), unique=True, nullable=False)
 
-class Committee(db.Model):
-    designation = db.Column(db.String(255))
-    committee_code = db.Column(db.String(255), primary_key=True )
-    committee_name = db.Column(db.String(255), unique=True, nullable=False)
-    committee_type = db.Column(db.String(255))
-
-class Faculty_Committee(db.Model):
-    committee_code = db.Column(db.String(255), ForeignKey("committee.committee_code"), primary_key=True, nullable=False)
-    faculty_email = db.Column(db.String(255), ForeignKey("faculty.faculty.email"), primary_key=True, nullable=False)
-    faculty_end_semester = db.Column(db.String(255))
-    membership_type = db.Column(db.String(255))
-    designation = db.Column(db.String(255))
-    academic_year = db.Column(db.String(255), primary_key=True, nullable=False)
 
 class Divisions(db.Model):
-    __tablename__ = "Divisions"
+    __tablename__ = "divisions"
     division = db.Column(db.String(255), nullable=False)
     division_id = db.Column(db.String(255), primary_key=True, nullable=False)
 
@@ -47,26 +31,6 @@ class Divisions(db.Model):
 def home():
     return render_template('home.html')
 
-@app.route('/faculty')
-def faculty():
-    faculty_list = Faculty.query.all()
-    return render_template('faculty.html', faculty_list=faculty_list)
-    #return render_template('faculty.html')
-
-@app.route('/committees')
-def committees():
-    committee_list = Committee.query.all()
-    return render_template('committees.html', committee_list=committee_list)
-
-@app.route('/faculty-committee-all')
-def faculty_committee_all():
-    faculty_committee_list = Faculty_Committee.query.order_by(Faculty_Committee.academic_year).all()
-    return render_template('faculty_committee_all.html', faculty_committee_list=faculty_committee_list)
-
-@app.route('/faculty-committee-last-five')
-def faculty_committee_last_five():
-    faculty_committee_list = Faculty_Committee.query.order_by(Faculty_Committee.academic_year.desc()).limit(5).all()
-    return render_template('faculty_committee_last_five.html', faculty_committee_list=faculty_committee_list)
 
 @app.route('/divisions')
 def divisions():
@@ -74,7 +38,7 @@ def divisions():
     return render_template('divisions.html', divisions_list=divisions_list)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port =8001)
 
 @app.route('/add_divisions', methods=['GET', 'POST'])
 def add_divisions():
@@ -84,7 +48,7 @@ def add_divisions():
         divisions = Divisions(division=div, Division_id=div_id)
         db.session.add(divisions)
         db.session.commit()
-        return redirect(url_for('divisions_list'))
+        return redirect(url_for('divisions'))
     return render_template('add_divisions.html')
 
 
@@ -92,19 +56,10 @@ from flask import Flask, render_template, request, redirect, url_for
 
 @app.route('/edit_divisions/<division>', methods=['GET', 'POST'])
 def edit_divisions(division):
-    faculty = Faculty.query.get(division)
+    division = Divisions.query.get(division)
     if request.method == 'POST':
-        divisions.division = request.form['division']
+        Divisions.division = request.form['division']
         db.session.commit()
         return redirect(url_for('division'))
     return render_template('edit_divisions.html', division = division)
-
-@app.route('/edit_division_id/<division_id>', methods=['GET', 'POST'])
-def edit_division_id(division_id):
-    division_id = Faculty.query.get(division_id)
-    if request.method == 'POST':
-        divisions.division_id = request.form['division_id']
-        db.session.commit()
-        return redirect(url_for('division_id'))
-    return render_template('edit_division_id.html', division=divisions)
 

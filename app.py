@@ -13,74 +13,19 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://p2:csci400@34.71.71.82:3306/p2_
 db = SQLAlchemy(app)
 
 # Define the models
-class CourseAttributes(db.Model):
-    attribute_code = db.Column(db.String(255), primary_key=True)
-    attribute = db.Column(db.String(255))
-    attribute_description = db.Column(db.String(255))
-
-class Courses (db.Model):
-    course_id = db.Column(db.Integer, primary_key=True)
-    subject_code = db.Column(db.String(10))
-    course_number = db.Column(db.String(10))
-    college = db.Column(db.String(5))
-    department_code = db.Column(db.Integer)
-    division_code = db.Column(db.Integer)
-    short_title = db.Column(db.String(100))
-    long_title = db.Column(db.String(255))
-    last_term_offered = db.Column(db.Integer, nullable=False)
-
 class Departments (db.Model):
     department_id = db.Column(db.Integer, primary_key=True)
     department_name = db.Column(db.String(255))
-
-class Divisions (db.Model):
-    division_id = db.Column(db.Integer, primary_key=True)
-    division = db.Column(db.String(20))
-
-class Faculty (db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    faculty_email = db.Column(db.String(255))
-    faculty_name = db.Column(db.String(255))
-
-class Prerequisites (db.Model):
-    subject_code = db.Column(db.String(10), primary_key=True)
-    course_id = db.Column(db.String(10), primary_key=True)
-
 
 # Table routes
 @app.route('/')
 def home():
     return render_template('home.html')
 
-@app.route('/course_attributes')
-def course_attributes():
-    course_attributes_list = CourseAttributes.query.order_by(CourseAttributes.attribute_code).all()
-    return render_template('TABLES/course_attributes.html', course_attributes_list=course_attributes_list)
-
-@app.route('/courses')
-def courses():
-    courses_list = Courses.query.order_by(Courses.course_id).all()
-    return render_template('TABLES/courses.html', courses_list=courses_list)
-
 @app.route('/departments')
 def departments():
     departments_list = Departments.query.order_by(Departments.department_id).all()
     return render_template('TABLES/departments.html', departments_list=departments_list)
-
-@app.route('/divisions')
-def divisions():
-    divisions_list = Divisions.query.order_by(Divisions.division_id).all()
-    return render_template('TABLES/divisions.html', divisions_list=divisions_list)
-
-@app.route('/faculty')
-def faculty():
-    faculty_list = Faculty.query.order_by(Faculty.id).all()
-    return render_template('TABLES/faculty.html', faculty_list=faculty_list)
-
-@app.route('/prerequisites')
-def prerequisites():
-    prerequisites_list = Prerequisites.query.order_by(Prerequisites.subject_code).all()
-    return render_template('TABLES/prerequisites.html', prerequisites_list=prerequisites_list)
 
 # Add to table routes
 @app.route('/add_department', methods=['GET', 'POST'])

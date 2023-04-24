@@ -1,0 +1,79 @@
+"""
+Write a Python Flask application that has separate pages to display all faculty, all committees, faculty participation in committee for all time sorted by academic year, and faculty participation in committee for last 5 academic years sorted by year. App must have a menu. Use this database schema: 
+Committee (Designation, Committee Code, Committee Name, Committee Type)
+Faculty (Faculty Email, Faculty Name)
+Faculty-Committee(Committee Code, Faculty Name, Faculty Start Semester, Membership Type, Designation, Academic Year) 
+"""
+from flask import Flask, render_template
+from flask import request, redirect, url_for
+# pip3 install flask-sqlalchemy
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Column, ForeignKey, Integer, String
+
+app = Flask(__name__)
+
+# Configure the application with a database
+# to create a new database run this command in terminal:
+# sqlite ./instance/faculty_committees.db
+
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://p2:csci400@34.71.71.82:3306/p2_courses"
+db = SQLAlchemy(app)
+
+# Define the models
+
+class Courses (db.Model):
+    course_id = db.Column(db.Integer, primary_key=True)
+    subject_code = db.Column(db.String(10))
+    course_number = db.Column(db.String(10))
+    college = db.Column(db.String(5))
+    department_code = db.Column(db.Integer)
+    division_code = db.Column(db.Integer)
+    short_title = db.Column(db.String(100))
+    long_title = db.Column(db.String(255))
+    last_term_offered = db.Column(db.Integer, nullable=False)
+
+
+# Define routes
+
+@app.route('/add_course', methods=['GET', 'POST'])
+def add_course():
+     if request.method == 'POST':
+        course_id = request.form['course_id']
+        subject_code = request.form['subject_code']
+        number = request.form['course_number']
+        college = request.form['college']
+        long_title = request.form['long_title']
+        short_title = request.form['short_title']
+        last_term = request.form['last_term_offered']
+        New_Courses = Courses(course_id=course_id, subject_code=subject_code, course_number=number, college=college, long_title=long_title, short_title=short_title, last_term_offered=last_term)
+        db.session.add(New_Courses)
+        db.session.commit()
+        return redirect(url_for('courses'))
+     return render_template('add_course.html')
+
+@app.route('/edit_course/<course_id>', methods=['GET', 'POST'])
+def edit_faculty(course_id):
+    course = Courses.query.get(course_id)
+    if request.method == 'POST':
+        course.subject_code = request.form['subject_code']
+        course.course_number = request.form['course_number']
+        course.college = request.form['college']
+        course.long_title = request.form['long_title']
+        course.short_title = request.form['short_title']
+        course.last_term_offered = request.form['last_term_offered']
+        db.session.commit()
+        return redirect(url_for('courses'))
+    return render_template('edit_course.html', course=course)
+
+
+@app.route('/')
+def home():
+    return render_template('home.html')
+
+@app.route('/courses')
+def courses():
+    courses_list = Courses.query.order_by(Courses.course_id).all()
+    return render_template('courses.html', courses_list=courses_list)
+
+if __name__ == '__main__':
+    app.run(debug=True)

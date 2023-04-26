@@ -1,0 +1,12 @@
+<h1>Edit Courses</h1>
+<form method="POST">
+    <label>ID:</label> {{ course.course_id }} <br>
+    <label>Subject Code:</label> <input type="text" name="subject_code" value="{{ course.subject_code }}"> <br>
+    <label>Number:</label> <input type="text" name="course_number" value="{{ course.course_number }}"> <br>
+    <label>College:</label> <input type="text" name="college" value="{{ course.college }}"> <br>
+    <label>Long Title:</label> <input type="text" name="long_title" value="{{ course.long_title }}"> <br>
+    <label>Short Title:</label> <input type="text" name="short_title" value="{{ course.short_title }}"> <br>
+    <label>Last Term Offered:</label> <input type="text" name="last_term_offered" value="{{ course.last_term_offered }}"> 
+        <br>
+    <input type="submit" value="Save">
+</form>    

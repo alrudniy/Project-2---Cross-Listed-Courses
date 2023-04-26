@@ -18,10 +18,10 @@
         <th>Division</th>
         <th>Division ID</th>
       </tr>
-      {% for division in division_id %}
+      {% for div in divisions_list %}
       <tr>
-        <td>{{ divisions.division }}</td>
-        <td>{{ divisions.division_id }}</td>
+        <td>{{ div.division }}</td>
+        <td>{{ div.division_id }}</td>
       </tr>
       {% endfor %}
     </table>

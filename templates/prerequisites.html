@@ -10,7 +10,7 @@
   <body>
     <div class="container">
       <h1 class="title-4">Prerequisites</h1>
-        <table class="table table-shell"></table>
+        <table class="table table-shell">
           <thead>
             <tr>
               <th scope = "col">Subject Code</th>
@@ -20,8 +20,8 @@
         <tbody>
           {% for Prereq in prerequisites_list %}
             <tr>
-              <td> <a href="edit_prerequisites/{{ prerequisites.cubject_code }}"> {{ prerequisites.subject_code }} </a> </td>
-              <td>{{ prerequisites.course_id }}</td>
+              <td>  {{ Prereq.subject_code }} </td>
+              <td><a href="edit_prerequisites/{{ Prereq.course_id }}">{{ Prereq.course_id }}</a></td>
             </tr>
           {% endfor %}
         </tbody>

@@ -27,7 +27,7 @@ db = SQLAlchemy(app)
 
 class Prerequisites(db.Model):
     __tablename__ = "prerequisites"
-    subject_code = db.Column(db.VARCHAR(10), primary_key=True, nullable=False)
+    subject_code = db.Column(db.VARCHAR(10), nullable=False)
     course_id = db.Column(db.VARCHAR(10), primary_key=True, nullable=False)
 
 
@@ -58,10 +58,9 @@ def add_prerequisites():
 
 
 
-
-@app.route('/edit_prerequisites/<subject_code>', methods=['GET', 'POST'])
-def edit_prerequisites(subject_code):
-    prerequisites = Prerequisites.query.get(subject_code)
+@app.route('/edit_prerequisites/<course_id>', methods=['GET', 'POST'])
+def edit_prerequisites(course_id):
+    prerequisites = Prerequisites.query.get(course_id)
     if request.method == 'POST':
         prerequisites.course_id = request.form['course_id']
         db.session.commit()

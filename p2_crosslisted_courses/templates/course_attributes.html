@@ -5,32 +5,30 @@
     <script src="js/bootstrap.js"></script>
 
     <title>Course Attributes</title>
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
-      crossorigin="anonymous">
-
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+          crossorigin="anonymous">
   </head>
   <body>
     <div class="container">
-    <h1 class="display-4">course_attributes</h1>
-    <table class="table table-striped table-dark">
-      <tr>
-        <th>attribute_code</th>
-        <th>attribute</th><link rel="stylesheet" href="path/to/bootstrap.css">
+      <h1 class="display-4">course_attributes</h1>
+      <table class="table table-striped table-dark">
+        <tr>
+          <th>attribute_code</th>
+          <th>attribute</th>
+          <th>attribute_description</th>
+        </tr>
+        {% for item in course_attributes_list %}
+        <tr>
+          <td><a href="./edit_course_attributes">{{ item.attribute_code }}</a></td>
     
-        
-        <th>attribute_description</th>
-      </tr>
-      {% for item in course_attributes_list %}
-      <tr>
-        <td>{{ item.attribute_code }}</td>
-        <td>{{ item.attribute }}</td>
-        <td>{{ item.attribute_description }}</td>
-      </tr>
-      {% endfor %}
-    </table>
-    <div>
+          <td>{{ item.attribute }}</td>
+          <td>{{ item.attribute_description }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div> <!-- fix: added closing div tag -->
   </body>
 </html>

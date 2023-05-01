@@ -45,7 +45,7 @@ def add_divisions():
     if request.method == 'POST':
         div = request.form['division']
         div_id = request.form['division_id']
-        divisions = Divisions(division=div, Division_id=div_id)
+        divisions = Divisions(division=div, division_id=div_id)
         db.session.add(divisions)
         db.session.commit()
         return redirect(url_for('divisions'))
@@ -58,8 +58,7 @@ from flask import Flask, render_template, request, redirect, url_for
 def edit_divisions(division):
     division = Divisions.query.get(division)
     if request.method == 'POST':
-        Divisions.division = request.form['division']
+        division.division = request.form['division']
         db.session.commit()
         return redirect(url_for('division'))
     return render_template('edit_divisions.html', division = division)
-

@@ -5,11 +5,7 @@ from sqlalchemy import Column, ForeignKey, Integer, String
 
 app = Flask(__name__)
 
-# Configure the application with a database
-# to create a new database run this command in terminal:
-# sqlite ./instance/faculty_committees.db
-
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://p2:csci400@34.71.71.82:3306/p2_courses"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://p3:Mtmqn584@34.136.218.122:3306/p3_courses"
 db = SQLAlchemy(app)
 
 # Define the models

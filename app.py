@@ -43,7 +43,7 @@ def add_course():
         db.session.add(New_Courses)
         db.session.commit()
         return redirect(url_for('courses'))
-     return render_template('add_course.html')
+     return render_template('ADD/add_course.html')
 
 @app.route('/edit_course/<course_id>', methods=['GET', 'POST'])
 def edit_faculty(course_id):
@@ -94,7 +94,7 @@ def edit_departments(department_id):
 @app.route('/courses')
 def courses():
     courses_list = Courses.query.order_by(Courses.course_id).all()
-    return render_template('courses.html', courses_list=courses_list)
+    return render_template('TABLES/courses.html', courses_list=courses_list)
 
 if __name__ == '__main__':
     app.run(debug=True)
